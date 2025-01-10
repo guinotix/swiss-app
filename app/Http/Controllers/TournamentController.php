@@ -6,6 +6,7 @@ use App\Enums\TournamentStatus;
 use App\Models\Player;
 use App\Models\Registration;
 use App\Models\Tournament;
+use App\Services\TournamentService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -69,7 +70,14 @@ class TournamentController extends Controller
      */
     public function show(Tournament $tournament)
     {
-        //
+        $rounds = TournamentService::calculateRounds($tournament->registrations()->count());
+
+        return Inertia::render('Tournament/Show', [
+            'tournament' => $tournament,
+            'playersRegistered' => $tournament->players,
+            'rounds' => $rounds,
+            'color' => $tournament->status->color(),
+        ]);
     }
 
     /**

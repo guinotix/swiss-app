@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 
 export default function TournamentsTable({ tournaments }) {
 
@@ -18,7 +19,9 @@ export default function TournamentsTable({ tournaments }) {
                             <tr key={tournament.id}>
                                 <th className="px-3 py-2">{tournament.id}</th>
                                 <td className="px-3 py-2 hover:underline">
-                                    {tournament.name}
+                                    <Link href={route('tournaments.show', tournament.id)}>
+                                        {tournament.name}
+                                    </Link>
                                 </td>
                                 <td className="px-3 py-2">
                                     <span className={`mt-1 text-white px-2 py-1 w-min rounded capitalize ${tournament.color}`}>
