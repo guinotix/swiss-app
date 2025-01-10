@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\TournamentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Tournament extends Model
+class Round extends Model
 {
     use HasFactory;
 
@@ -17,22 +17,18 @@ class Tournament extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'status',
+        'tournament_id',
+        'number',
     ];
 
-    protected $casts = [
-        'status' => TournamentStatus::class,
-    ];
-
-    public function registrations(): HasMany
+    public function tournament(): BelongsTo
     {
-        return $this->hasMany(Registration::class);
+        return $this->belongsTo(Tournament::class);
     }
 
-    public function rounds(): HasMany
+    public function pairings(): HasMany
     {
-        return $this->hasMany(Round::class);
+        return $this->hasMany(Pairing::class);
     }
 
 }
