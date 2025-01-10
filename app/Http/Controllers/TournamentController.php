@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\Registration;
 use App\Models\Tournament;
 use App\Services\TournamentService;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -102,6 +103,23 @@ class TournamentController extends Controller
     public function destroy(Tournament $tournament)
     {
         //
+    }
+
+    public function startTournament(Request $request, Tournament $tournament)
+    {
+        try {
+            $rounds = TournamentService::calculateRounds($tournament->registrations()->count());
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
+
+        TournamentService::createTournamentRounds($tournament, $rounds);
+
+        TournamentService::generateFirstRoundPairings($tournament);
+
+        $tournament->update(['status' => TournamentStatus::ONGOING]);
+
+        return redirect(route('tournaments.show', $tournament));
     }
 
 }

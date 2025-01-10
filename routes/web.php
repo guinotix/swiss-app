@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('players', PlayerController::class);
     Route::resource('tournaments', TournamentController::class);
+    Route::post('/tournaments/{tournament}/start', [TournamentController::class, 'startTournament'])->name('tournaments.startTournament');
 });
 
 Route::get('/dashboard', function () {

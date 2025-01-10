@@ -1,7 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 export default function Show({ auth, tournament, playersRegistered, rounds, color }) {
+
+    const startTournament = () => {
+        router.post(route("tournaments.startTournament", tournament), { tournament });
+    }
 
     return (
         <AuthenticatedLayout
@@ -41,6 +45,17 @@ export default function Show({ auth, tournament, playersRegistered, rounds, colo
                             </div>
                         </div>
                     </div>
+
+                    { tournament.status == "created" ?
+                        <div className="flex justify-center mt-4">
+                            <button onClick={startTournament}
+                                className="bg-emerald-500 px-3 py-1 text-white rounded shadow transition-all hover:bg-emerald-600">
+                                Start
+                            </button>
+                        </div>
+                        :
+                        <div></div>
+                    }
 
                     <div className="mt-4 bg-slate-200 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-slate-700">
