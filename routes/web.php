@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TournamentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,6 +18,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('players', PlayerController::class);
+    Route::resource('tournaments', TournamentController::class);
 });
 
 Route::get('/dashboard', function () {
