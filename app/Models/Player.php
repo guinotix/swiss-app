@@ -22,4 +22,9 @@ class Player extends Model
         'date_of_birth',
     ];
 
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(Registration::class);
+    }
+
 }
