@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PairingController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TournamentController;
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('players', PlayerController::class);
     Route::resource('tournaments', TournamentController::class);
     Route::post('/tournaments/{tournament}/start', [TournamentController::class, 'startTournament'])->name('tournaments.startTournament');
+    Route::put('/pairings/{pairing}', [PairingController::class, 'update'])->name('pairings.update');
 });
 
 Route::get('/dashboard', function () {

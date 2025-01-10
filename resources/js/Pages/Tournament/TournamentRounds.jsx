@@ -1,10 +1,23 @@
 import { useState } from 'react';
+import { router } from '@inertiajs/react';
 
 export default function TournamentRounds({ rounds, currentRound, pairingsByRound }) {
 
     const [activeTab, setActiveTab] = useState(currentRound);
 
     const selectedPairings = pairingsByRound.find((r) => r.round_id == activeTab)?.pairings || [];
+
+    const p1wins = (pairing) => {
+        router.put(route("pairings.update", pairing), { matchResult: "P1" });
+    }
+
+    const p2wins = (pairing) => {
+        router.put(route("pairings.update", pairing), { matchResult: "P2" });
+    }
+
+    const p1p2tie = (pairing) => {
+        router.put(route("pairings.update", pairing), { matchResult: "TIE" });
+    }
 
     return (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -56,7 +69,18 @@ export default function TournamentRounds({ rounds, currentRound, pairingsByRound
                                                         <span>{pairing.winner_id == pairing.player1_id ? pairing.player1_fullname : pairing.player2_fullname} wins!</span>
                                                     :
                                                         <div className="flex justify-center gap-x-2">
-                                                            P1 WINS - P2 WINS - TIE
+                                                            <button onClick={e => p1wins(pairing)}
+                                                                className="bg-blue-500 px-3 py-1 text-white rounded shadow transition-all hover:bg-blue-600">
+                                                                P1 WINS
+                                                            </button>
+                                                            <button onClick={e => p2wins(pairing)}
+                                                                className="bg-blue-500 px-3 py-1 text-white rounded shadow transition-all hover:bg-blue-600">
+                                                                P2 WINS
+                                                            </button>
+                                                            <button onClick={e => p1p2tie(pairing)}
+                                                                className="bg-orange-500 px-3 py-1 text-white rounded shadow transition-all hover:bg-orange-600">
+                                                                TIE
+                                                            </button>
                                                         </div>
                                                     ))}
                                                 </td>
