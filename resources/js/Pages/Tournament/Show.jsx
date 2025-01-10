@@ -1,7 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 
-export default function Show({ auth, tournament, playersRegistered, rounds, color }) {
+import TournamentRounds from './TournamentRounds';
+
+export default function Show({ auth, tournament, playersRegistered, rounds, pairingsByRound, color }) {
 
     const startTournament = () => {
         router.post(route("tournaments.startTournament", tournament), { tournament });
@@ -20,6 +22,18 @@ export default function Show({ auth, tournament, playersRegistered, rounds, colo
 
 
             <div className="py-12">
+
+                { tournament.status != "created" ? 
+                    <TournamentRounds
+                        currentRound={1}
+                        rounds={rounds}
+                        pairingsByRound={pairingsByRound}
+                        tournament={tournament}
+                    />
+                    :
+                    <div></div>
+                }
+
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-slate-200 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-slate-700">

@@ -70,4 +70,29 @@ class TournamentService
         }
     }
 
+    public static function getPairingsByRound(Tournament $tournament): array
+    {
+        $array = $tournament->rounds->map(function ($round) {
+            $pairings = $round->pairings->map(function ($pairing) {
+                $base = $pairing->toArray();
+                if ($pairing->player2) {
+                    return array_merge($base, [
+                        'player1_fullname' => $pairing->player1->player->name . ' ' . $pairing->player1->player->surname,
+                        'player2_fullname' => $pairing->player2->player->name . ' ' . $pairing->player2->player->surname,
+                    ]);
+                }
+                return array_merge($base, [
+                    'player1_fullname' => $pairing->player1->player->name . ' ' . $pairing->player1->player->surname,
+                    'player2_fullname' => 'BYE',
+                ]);
+            })->toArray();
+            return [
+                'round_id' => $round->number,
+                'pairings' => $pairings,
+            ];
+        })->toArray();
+
+        return $array;
+    }
+
 }

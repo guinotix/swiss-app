@@ -72,11 +72,13 @@ class TournamentController extends Controller
     public function show(Tournament $tournament)
     {
         $rounds = TournamentService::calculateRounds($tournament->registrations()->count());
+        $pairingsByRound = TournamentService::getPairingsByRound($tournament);
 
         return Inertia::render('Tournament/Show', [
             'tournament' => $tournament,
             'playersRegistered' => $tournament->players,
             'rounds' => $rounds,
+            'pairingsByRound' => $pairingsByRound,
             'color' => $tournament->status->color(),
         ]);
     }

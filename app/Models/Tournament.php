@@ -6,6 +6,7 @@ use App\Enums\TournamentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Tournament extends Model
 {
@@ -33,6 +34,11 @@ class Tournament extends Model
     public function rounds(): HasMany
     {
         return $this->hasMany(Round::class);
+    }
+
+    public function players(): HasManyThrough
+    {
+        return $this->hasManyThrough(Player::class, Registration::class, 'tournament_id', 'id', 'id', 'player_id');
     }
 
 }
