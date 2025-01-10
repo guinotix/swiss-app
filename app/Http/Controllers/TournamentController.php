@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TournamentStatus;
+use App\Models\Player;
+use App\Models\Registration;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,9 +32,11 @@ class TournamentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render('Tournament/Create', [
+            'players' => Player::all(),
+        ]);
     }
 
     /**
@@ -39,7 +44,24 @@ class TournamentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'entries' => 'required|array',
+        ]);
+
+        $tournament = Tournament::create([
+            'name' => $validated['name'],
+            'status' => TournamentStatus::CREATED,
+        ]);
+
+        foreach ($validated['entries'] as $key => $value) {
+            Registration::create([
+                'tournament_id' => $tournament->id,
+                'player_id' => $value['id'],
+            ]);
+        }
+
+        return redirect(route('tournaments.index'));
     }
 
     /**

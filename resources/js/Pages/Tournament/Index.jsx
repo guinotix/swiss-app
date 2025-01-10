@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 import TournamentsTable from './TournamentsTable';
 
@@ -13,6 +13,9 @@ export default function Index({ auth, tournaments }) {
                     <h2 className="text-xl font-semibold leading-tight text-gray-800">
                         Tournaments
                     </h2>
+                    <Link href={route("tournaments.create")} className="bg-emerald-500 px-3 py-1 text-white uppercase rounded shadow transition-all hover:bg-emerald-600">
+                        New tournament
+                    </Link>
                 </div>
             }
         >
