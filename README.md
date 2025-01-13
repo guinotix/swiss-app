@@ -1,66 +1,69 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SwissApp: Swiss-system Tournament Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
+This application is a tool to manage tournaments using the Swiss system. It is designed to register players, generate rounds in a dynamic way based on the number of participants, manage pairings and calculate standings in real time.
 
-## About Laravel
+It is ideal for competitive tournaments of board games, TCGs or sports where a fair and efficient method of matching players across multiple rounds is required. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The development started taking into account an existing application (Tournament Operations Manager) due to their UI, which seems improvable. At first, it will handle the backend functionalities very basic so the main focus will be the use of a modern and fresh UI.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Main Features
+- **Players Management:** List the current players in the database with some personal info.
+- **Tournament Creation:** Automatic configuration with a basic ruleset and a minimum of 4 players.
+- **Round Generation:** Automatic pairing generation using the Monrad system for pairing generation.
+- **Standings:** Updated players ranking after each round.
+- **Intuitive User Interface:** React-based interaction with Tailwind CSS support.
+- **Data Persistence:** Use of SQLite with Eloquent ORM to manage database access and updates.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/guinotix/swiss-app.git
+   ```
+2. Go to project's directory:
+   ```bash
+   cd swiss-app
+   ```
+3. Install PHP and JavaScript dependencies:
+   ```bash
+   composer install
+   npm install
+   ```
+4. Configure your environment:
+   - Copy `.env.example` file and rename it as `.env`.
+   - Configure the database and other variables in `.env`.
+5. Genere the key of the application:
+   ```bash
+   php artisan key:generate
+   ```
+6. Execute database migrations and data seeders:
+   ```bash
+   php artisan migrate --seed
+   ```
+7. Compile the front-end:
+   ```bash
+   npm run dev
+   ```
+8. Inicialize the server:
+   ```bash
+   php artisan serve
+   ```
 
-## Learning Laravel
+## Current Status
+- **Backend:**
+  - Basic structure for tournaments, registrations, rounds and pairings.
+  - Business validations to avoid bad tournament configuration.
+- **Frontend:**
+  - React components to show tournaments details, rounds and standings.
+  - Modern styling with Tailwind CSS.
+- **Database:**
+  - Optimized relational design to manage multiple tournaments at the same time.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Next Tasks (no particular order)
+1. **Players Management:** (a) Allow registration for players as well as (b) registration on tournaments.
+2. **Tournament Management:** (a) Add round advance algorithm and (b) standings view after each round.
+2. **Single Elimination Rounds:** Add QF/SF/F rounds at the end of the tournament.
+3. **Data Exportation:** Allow standings and resuts exportation in PDF or Excel files.
+4. **User Authentication:** Add Admin/Player roles to integrate both parties to the desired use of the application.
+5. **Notifications:** Send notifications to players about their current status in their tournaments.
+6. **Pairing Optimization:** Add tie-breaking algorithm (Buchholz/Cumulative)
