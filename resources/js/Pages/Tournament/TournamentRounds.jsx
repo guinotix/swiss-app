@@ -1,11 +1,24 @@
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 
-export default function TournamentRounds({ rounds, currentRound, pairingsByRound }) {
+export default function TournamentRounds({ rounds, pairingsByRound, tournament }) {
 
-    const [activeTab, setActiveTab] = useState(currentRound);
+    const [activeTab, setActiveTab] = useState(tournament.current_round);
 
     const selectedPairings = pairingsByRound.find((r) => r.round_id == activeTab)?.pairings || [];
+
+    const hasFinishedMatches = selectedPairings.some(
+        pairing => !((pairing.winner_id == null && pairing.is_a_tie)
+                || (pairing.winner_id != null && !pairing.is_a_tie))
+    );
+
+    const advanceRound = () => {
+        if (hasFinishedMatches) {
+            alert('There are some matches on going');
+            return;
+        }
+        router.post(route("tournaments.advanceRound", tournament));
+    }
 
     const p1wins = (pairing) => {
         router.put(route("pairings.update", pairing), { matchResult: "P1" });
@@ -98,6 +111,17 @@ export default function TournamentRounds({ rounds, currentRound, pairingsByRound
                         </div>
                     }
                 </div>
+
+                { tournament.status != "finished" && activeTab == tournament.current_round 
+                    && !hasFinishedMatches ?
+                        <div className="flex justify-center mt-4">
+                            <button onClick={advanceRound}
+                                className="bg-blue-500 px-3 py-1 text-white rounded shadow transition-all hover:bg-blue-600">
+                                ADVANCE ROUND
+                            </button>
+                        </div>
+                    : <div></div>
+                }
 
             </div>
         </div>

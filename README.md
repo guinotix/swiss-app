@@ -61,7 +61,7 @@ The development started taking into account an existing application (Tournament 
 
 ## Next Tasks (no particular order)
 1. **Players Management:** (a) Allow registration for players as well as (b) registration on tournaments.
-2. **Tournament Management:** (a) Add round advance algorithm and (b) standings view after each round.
+2. **Tournament Management:** Add standings view after each round.
 2. **Single Elimination Rounds:** Add QF/SF/F rounds at the end of the tournament.
 3. **Data Exportation:** Allow standings and resuts exportation in PDF or Excel files.
 4. **User Authentication:** Add Admin/Player roles to integrate both parties to the desired use of the application.

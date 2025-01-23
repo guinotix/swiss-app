@@ -126,4 +126,20 @@ class TournamentController extends Controller
         return redirect(route('tournaments.show', $tournament));
     }
 
+    public function advanceRound(Request $request, Tournament $tournament)
+    {
+        $lastRound = Round::where('tournament_id', $tournament->id)
+                        ->orderBy('number', 'desc')
+                        ->first()->number;
+
+        if ($tournament->current_round == $lastRound) {
+            $tournament->update(['status' => TournamentStatus::FINISHED]);
+            return redirect(route('tournaments.show', $tournament));
+        }
+
+        TournamentService::generateRoundPairings($tournament);
+        $tournament->increment('current_round', 1);
+
+        return redirect(route('tournaments.show', $tournament));
+    }
 }
