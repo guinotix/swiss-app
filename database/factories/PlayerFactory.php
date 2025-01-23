@@ -21,8 +21,6 @@ class PlayerFactory extends Factory
             'surname' => fake()->lastName(),
             'email' => fake()->email(),
             'date_of_birth' => fake()->date(),
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 }

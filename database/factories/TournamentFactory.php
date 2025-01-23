@@ -20,8 +20,6 @@ class TournamentFactory extends Factory
         return [
             'name' => fake()->name(),
             'status' => TournamentStatus::CREATED,
-            'created_at' => now(),
-            'updated_at' => now(),
         ];
     }
 }
