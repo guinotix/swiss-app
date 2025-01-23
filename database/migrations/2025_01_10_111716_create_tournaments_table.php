@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('status');
+            $table->integer('current_round')->default(0);
             $table->timestamps();
         });
     }

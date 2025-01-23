@@ -27,14 +27,16 @@ class TournamentService
         }
     }
 
-    public static function generateFirstRoundPairings(Tournament $tournament)
+    public static function generateRoundPairings(Tournament $tournament)
     {
-        $firstRound = Round::where('tournament_id', $tournament->id)
-                        ->where('number', '=', 1)
+        $nextRound = Round::where('tournament_id', $tournament->id)
+                        ->where('number', '=', $tournament->current_round + 1)
                         ->first()->id;
 
         // Monrad system
-        $regs = $tournament->registrations->pluck('player_id')->toArray();
+        $regs = ($tournament->current_round == 0)
+            ? $tournament->registrations->pluck('player_id')->toArray()
+            : $tournament->registrations->sortByDesc('points')->pluck('player_id')->toArray();
         $pairs = [];
         while (count($regs) >= 2) {
             $player1 = array_shift($regs);
@@ -47,14 +49,14 @@ class TournamentService
         foreach ($pairs as $pair) {
             Pairing::create([
                 'tournament_id' => $tournament->id,
-                'round_id' => $firstRound,
+                'round_id' => $nextRound,
                 'player1_id' => $pair[0],
                 'player2_id' => $pair[1],
             ]);
         }
 
         $pairingWithBye = Pairing::where('tournament_id', $tournament->id)
-                            ->where('round_id', $firstRound)
+                            ->where('round_id', $nextRound)
                             ->orderBy('id', 'desc')
                             ->first();
 

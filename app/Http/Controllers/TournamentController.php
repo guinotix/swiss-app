@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\TournamentStatus;
 use App\Models\Player;
 use App\Models\Registration;
+use App\Models\Round;
 use App\Models\Tournament;
 use App\Services\TournamentService;
 use Exception;
@@ -117,8 +118,9 @@ class TournamentController extends Controller
 
         TournamentService::createTournamentRounds($tournament, $rounds);
 
-        TournamentService::generateFirstRoundPairings($tournament);
+        TournamentService::generateRoundPairings($tournament);
 
+        $tournament->increment('current_round', 1);
         $tournament->update(['status' => TournamentStatus::ONGOING]);
 
         return redirect(route('tournaments.show', $tournament));

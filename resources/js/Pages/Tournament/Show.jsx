@@ -25,7 +25,6 @@ export default function Show({ auth, tournament, playersRegistered, rounds, pair
 
                 { tournament.status != "created" ? 
                     <TournamentRounds
-                        currentRound={1}
                         rounds={rounds}
                         pairingsByRound={pairingsByRound}
                         tournament={tournament}
