@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Pairing;
 use App\Models\Registration;
 use App\Models\Round;
+use App\Models\Standing;
 use App\Models\Tournament;
 use Exception;
 
@@ -97,4 +98,32 @@ class TournamentService
         return $array;
     }
 
+    public static function createStandings(Tournament $tournament)
+    {
+        $currentRound = Round::where('tournament_id', $tournament->id)
+                            ->where('number', '=', $tournament->current_round)
+                            ->first();
+        $registrations = $tournament->registrations
+                            ->sortByDesc('points')
+                            ->pluck('player_id')
+                            ->toArray();
+        $standings = [];
+        foreach ($registrations as $key => $value) {
+            $current = Registration::with('player')
+                                    ->where('tournament_id', $tournament->id)
+                                    ->where('player_id', $value)
+                                    ->get()
+                                    ->first();
+            $standings[] = [
+                'rank' => $key + 1,
+                'player' => $current->player->name . ' ' . $current->player->surname,
+                'points' => $current->points,
+            ];
+        }
+        Standing::create([
+            'tournament_id' => $tournament->id,
+            'round_id' => $currentRound->id,
+            'content' => $standings,
+        ]);
+    }
 }

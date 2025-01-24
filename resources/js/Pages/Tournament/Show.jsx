@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 
 import TournamentRounds from './TournamentRounds';
 
@@ -13,9 +13,14 @@ export default function Show({ auth, tournament, playersRegistered, rounds, pair
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    {`Tournament: ${tournament.name}`}
-                </h2>
+                <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                        {`Tournament: ${tournament.name}`}
+                    </h2>
+                    <Link href={route("tournaments.standings", tournament)} className="bg-blue-500 px-3 py-1 text-white uppercase rounded shadow transition-all hover:bg-blue-600">
+                        Standings
+                    </Link>
+                </div>
             }
         >
             <Head title={tournament.name} />

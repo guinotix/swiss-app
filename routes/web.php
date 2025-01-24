@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('tournaments', TournamentController::class);
     Route::post('/tournaments/{tournament}/start', [TournamentController::class, 'startTournament'])->name('tournaments.startTournament');
     Route::post('/tournaments/{tournament}/advance', [TournamentController::class, 'advanceRound'])->name('tournaments.advanceRound');
+    Route::get('/tournaments/{tournament}/standings', [TournamentController::class, 'standings'])->name('tournaments.standings');
+    Route::get('/tournaments/{tournament}/standings/{standing}', [TournamentController::class, 'showStanding'])->name('tournaments.showStanding');
     Route::put('/pairings/{pairing}', [PairingController::class, 'update'])->name('pairings.update');
 });
 

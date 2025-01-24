@@ -6,6 +6,7 @@ use App\Enums\TournamentStatus;
 use App\Models\Player;
 use App\Models\Registration;
 use App\Models\Round;
+use App\Models\Standing;
 use App\Models\Tournament;
 use App\Services\TournamentService;
 use Exception;
@@ -108,6 +109,24 @@ class TournamentController extends Controller
         //
     }
 
+    public function standings(Tournament $tournament)
+    {
+        $standings = Standing::where('tournament_id', $tournament->id)->get();
+        return Inertia::render('Tournament/Standings', [
+            'tournament' => $tournament,
+            'standings' => $standings,
+        ]);
+    }
+
+    public function showStanding(Tournament $tournament, Standing $standing)
+    {
+        return Inertia::render('Tournament/StandingsTable', [
+            'tournament' => $tournament,
+            'standings' => $standing->content,
+            'currentRound' => $standing->round->number,
+        ]);
+    }
+
     public function startTournament(Request $request, Tournament $tournament)
     {
         try {
@@ -128,6 +147,8 @@ class TournamentController extends Controller
 
     public function advanceRound(Request $request, Tournament $tournament)
     {
+        TournamentService::createStandings($tournament);
+
         $lastRound = Round::where('tournament_id', $tournament->id)
                         ->orderBy('number', 'desc')
                         ->first()->number;
